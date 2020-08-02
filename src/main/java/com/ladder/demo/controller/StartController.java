@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class StartController {
@@ -98,7 +95,8 @@ public class StartController {
         if(r == (maxRow-1) && c == (maxCol-1)){
             //시뮬레이션을 통과해야 후보군에 저장
             if(simulate(map,maxRow,maxCol)){
-                List<Pair> insert = new ArrayList<>();
+//                Map<Integer,Integer> insert = new HashMap<>();
+                List<Pair> insert =  new ArrayList<>();
                 for(int i = 0 ; i < maxRow; i++){
                     for(int j = 0; j < maxCol; j++){
                         if(map[i][j] == 1){
@@ -156,7 +154,7 @@ public class StartController {
     public List<Pair> simulateLadder(@RequestParam("userNum") int userNum){
         List<Pair> res;
 
-        int rowNum = userNum + 2;
+        int rowNum = userNum + 3;
         int colNum = userNum;
 
         //연결 상태의 정보를 저장하는 Map의 생성
@@ -173,6 +171,11 @@ public class StartController {
         res = this.resCandidate.get(pick);
 
         return res;
+    }
+
+    @GetMapping("start/result")
+    public String result(){
+        return "game_index01";
     }
 
 

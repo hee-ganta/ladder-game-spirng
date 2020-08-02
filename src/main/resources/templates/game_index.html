@@ -196,7 +196,7 @@
                 url: "/start/ladder",
                 type: "POST",
                 data: form,
-                dataType : "json",
+                dataType : 'json',
                 success: function(data){
                     //html 수정
                     insertCanvas = '<canvas id = \"paper\" class = \"ladder_paper\" ></canvas>';
@@ -204,7 +204,6 @@
 
                     //사다리 작업 수행
                     createLadder(data);
-                    console.log(data[8])
                     },
                 error: function(){
                     alert("통신 중 에러가 발생했습니다.");
@@ -223,12 +222,10 @@
            let cutHorizontal = [];
            let horizontalTerm = 0;
            let insertHorizontal = 0;
+           let horizontalIdx = 0;
+           let verticalIdx = 0;
 
-           // let ladder_information = Array(data);
-           //
-           // console.log("!!!");
-           // console.log(typeof ladder_information);
-           // console.log(ladder_information);
+           let verticalDivCnt = count + 3;
 
            if(count === 4){
                //수직선 저장
@@ -238,9 +235,9 @@
                 cutVertical.push(280);
 
                 //가로선 저장
-                horizontalTerm = 140 / 6;
-                for(let i  = 1; i <= 6; i++){
-                    insertHorizontal += horizontalTerm * i;
+                horizontalTerm = (canvas.height-10) / verticalDivCnt;
+                for(let i  = 1; i <= verticalDivCnt; i++){
+                    insertHorizontal = horizontalTerm * i;
                     cutHorizontal.push(insertHorizontal);
                 }
            }
@@ -251,9 +248,9 @@
                cutVertical.push(260);
 
                //가로선 저장
-               horizontalTerm = 140 / 5;
-               for(let i  = 1; i <= 5; i++){
-                   insertHorizontal += horizontalTerm * i;
+               horizontalTerm = (canvas.height-10) / verticalDivCnt;
+               for(let i  = 1; i <= verticalDivCnt; i++){
+                   insertHorizontal = horizontalTerm * i;
                    cutHorizontal.push(insertHorizontal);
                }
            }
@@ -263,9 +260,9 @@
                cutVertical.push(240);
 
                //가로선 저장
-               horizontalTerm = 140 / 4;
-               for(let i  = 1; i <= 4; i++){
-                   insertHorizontal += horizontalTerm * i;
+               horizontalTerm = (canvas.height-10) / verticalDivCnt;
+               for(let i  = 1; i <= verticalDivCnt; i++){
+                   insertHorizontal = horizontalTerm * i;
                    cutHorizontal.push(insertHorizontal);
                }
            }
@@ -284,6 +281,23 @@
                c.stroke();
            }
 
+           //가로선을 그리는 작업
+           console.log(data);
+            console.log(cutVertical);
+            console.log(cutHorizontal)
+            $.each(data,function(i,v){
+                //데이터 인풋
+                horizontalIdx = Number(v.horizontal);
+                verticalIdx = Number(v.vertical);
+                console.log(horizontalIdx);
+                console.log(verticalIdx);
+
+                c.beginPath();
+                c.moveTo(cutVertical[verticalIdx],cutHorizontal[horizontalIdx]);
+                c.lineTo(cutVertical[verticalIdx+1],cutHorizontal[horizontalIdx]);
+                c.stroke();
+
+            });
 
         }
 
