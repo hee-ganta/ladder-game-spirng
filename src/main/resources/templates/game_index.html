@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" content="text/html; charset=UTF-8">
+    <title>사다리 만들기 전</title>
+<!--    추가로 넣어준 사항-->
+    <script src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimun-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
+    
+<style>
+    {outline: solid 1px;}
+    *{box-sizing: border-box;}
+    
+    .wrap{width: 90%; height: 90%; margin: auto;}
+    @media all and (min-width:360px) {
+    .wrap .img_list ul{list-style-type: none; display: flex;
+    padding-top: 3%;}
+    .wrap .img_list ul li{flex: 4;}
+    
+    .wrap .img_list ul li img{width: 80%}
+    
+    .wrap .button{margin-top: 25%; margin-bottom: 25%; text-align: center;}
+    .wrap .button span{border: 1px solid #666; padding: 2%; border-radius: 4%; font-size:1.5em; box-shadow: #666 2.5px 3px; font-family: 'Jua', sans-serif; color: #666; }
+
+    
+    .button_list ul{list-style-type: none; display: flex;
+    justify-content: center;}
+    .button_list ul li{ text-align: center; border: 2px solid #666; margin-right: 10%; border-radius: 50%; flex: 0.5%; padding: 5%; font-size: 3vw; font-family: 'Jua', sans-serif; font-weight: bold; color: #666; }
+    
+    /*input 태그로 수정하여 작업을 진행함 */
+    .button_text:hover{background-color: #ff9999;}
+        .button_text{ width: 20%; border: 1px solid; line-height: 3;}
+
+
+    .ladder_paper{
+        width:93%;
+        height:100%;
+        display: flex;
+        position: relative;
+    }
+    .textbox{margin-top: 12%;}
+    .textbox li{font-family: 'Jua', sans-serif; font-weight: bold; color:#666; }
+    .textbox .text{flex: 2; display: flex; margin-bottom: -2%; }
+    .textbox .text p{font-family: 'Jua', sans-serif;}
+    .textbox .text .rere_01{ font-size: 1.3rem; padding-left: 3.5%; width: 30%; text-align:left; color:#333;}
+    .textbox .text .rere{ margin-left: 1%; padding: 1%; border: 1px solid #999; border-radius: 3%; margin-left: 42%; width: 20%; text-align: center;
+    font-size: 1rem;color: #666; height: 12%; box-shadow: #999 2.5px 3px;} 
+    
+    .textbox .text .rere:hover{background-color: #66cc99;}
+    
+    
+    .textbox .text_box01{display: flex; list-style-type: none; margin-bottom: 2%;}
+    .textbox .text_box01 .box01{flex: 2;}
+    .textbox .text_box01 .box02{flex: 2;}
+    .textbox .text_box02{display: flex; list-style-type: none;}
+    .textbox .text_box02 .box03{flex: 2;}
+    .textbox .text_box02 .box04{flex: 2;}
+    
+    
+    /*.textbox_box{width: 90%; height: auto; padding-left: 5%}*/
+    input{width: 80%; height: 150%; border: dashed 1px #666; border-radius: 3%;}
+    .wrap .footer{text-align: center; padding-top: 1%;
+    padding-bottom: 1%; font-size: 0.8rem; color: #666;}
+    
+     .wrap .icon ul{list-style-type: none;margin-top: 5%;}
+        .wrap .icon img{width: 2%;}
+        .wrap .icon ul li{display: inline; padding-right: 2%}
+        .icon_05{font-size: 3vw; color: #666; font-family: 'Jua', sans-serif;}
+
+    }
+    
+</style>
+
+</head>
+
+
+<body>
+   <div class="wrap">
+
+   <div class="icon">
+        <ul>
+        <li><img src="img/icon_01.png" alt class="plus" id = "btn1"></li>
+        <li class="icon_05 number" id = "num_name">4</li>
+        <li><img src="img/icon_02.png" alt class ="minus" id = "btn2"></li>
+        </ul>
+        
+    </div>
+
+
+    <div class="img_list">
+            <ul class = "img_list_ul" id = "animal_image">
+                <li><img src="img/1.png" alt="" id = "img1"></li>
+                <li><img src="img/2.png" alt="" id = "img2"></li>
+                <li><img src="img/3.png" alt="" id = "img3"></li>
+                <li><img src="img/4.png" alt="" id = img4></li>
+            </ul>
+
+        <canvas id = "paper" class = "ladder_paper" ></canvas>
+
+            <div class="button_list">
+                <ul id = "destination_list">
+                    <li id = "dest1">1</li>
+                    <li id = "dest2">2</li>
+                    <li id = "dest3">3</li>
+                    <li id = "dest4">4</li>
+                </ul>
+            </div>
+    </div>
+
+<!--       <div class = "ladder" id = "ladder_body">-->
+<!--           <div class="button">-->
+<!--               <span class="button_text">START</span>-->
+<!--           </div>-->
+<!--       </div>-->
+      
+      <div class="textbox">
+          <div class="text"><p class="rere_01">내기 설정</p> <p class="rere">초기화</p></div>
+
+          <div class="textbox_box">
+              <ul class="text_box01">
+                  <li class="box01">1&nbsp; <input type="text" name=""></li>
+                  <li class="box02">2&nbsp; <input type="text" name=""></li>
+              </ul>
+          
+              <ul class="text_box02">
+                    <li class="box03">3&nbsp; <input type="text" name=""></li>
+                    <li class="box04">4&nbsp; <input type="text" name=""></li>
+              </ul>
+          </div>
+
+          <div class="footer">
+             <p>Copyright Ⓒ Meeteum - Son . All rights reserved.</p>
+          </div>
+      </div>
+
+    </div>
+
+    <script type = "text/javascript">
+        let minus = document.querySelector('.minus');
+        let plus = document.querySelector('.plus');
+        // let makeLadder = document.querySelector('.button');
+        let count = 4;
+        var imgName = '';
+        var destNum = '';
+
+
+        let canvas = document.getElementById("paper"),
+            c = canvas.getContext("2d");
+
+
+        var img1 = document.getElementById("img1");
+        img1Y = (img1.getBoundingClientRect().top +img1.getBoundingClientRect().bottom) / 2;
+        img1X = (img1.getBoundingClientRect().left +img1.getBoundingClientRect().right) / 2;
+        console.log(img1.getBoundingClientRect().top);
+
+        minus.addEventListener('click',()=>{
+            if(count > 2) {
+                imgName = "";
+                destNum = ""
+                count--;
+                document.getElementById("num_name").innerHTML = count.toString();;
+                for(let i = 1; i <=count; i++) {
+                    imgName += '<li><img src="img/' + i.toString() + '.png" alt=""></li>'
+                    destNum += '<li id = "dest' + i.toString() + '">' + i.toString() + '</li>'
+                }
+                document.getElementById("animal_image").innerHTML = imgName;
+                document.getElementById('destination_list').innerHTML = destNum;
+            }
+            else{
+                alert("더이상 줄일 수 없습니다!");
+            }
+        });
+        plus.addEventListener('click',()=>{
+            if(count < 4) {
+                imgName = "";
+                destNum = ""
+                count++;
+                document.getElementById("num_name").innerHTML = count.toString();
+
+                for(let i = 1; i <=count; i++) {
+                    imgName += '<li><img src="img/' + i.toString() + '.png" alt=""></li>'
+                    destNum += '<li id = "dest' + i.toString() + '">' + i.toString() + '</li>'
+                }
+                document.getElementById("animal_image").innerHTML = imgName;
+                document.querySelector('destination_list').innerHTML = destNum;
+            }
+            else{
+                alert("더이상 늘릴 수 없습니다!");
+            }
+        });
+        // makeLadder.addEventListener('click',()=>{
+        //     var form = {
+        //         userNum : count
+        //     }
+        //     $.ajax({
+        //         url: "/start/ladder",
+        //         type: "POST",
+        //         data: form,
+        //         success: function(data){
+        //             console.log(data);
+        //         },
+        //         error: function(){
+        //             alert("통신 중 에러가 발생했습니다.");
+        //         }
+        //     });
+        // });
+
+        function ladder(){
+           c.fillStyle = "black";
+           c.fillRect(0,0,canvas.width,canvas.height);
+
+           // console.log(canvas.width);
+           // console.log(canvas.height);
+
+
+           c.strokeStyle = "white";
+           c.lineWidth = 2;
+
+           c.beginPath();
+           c.moveTo(45,0);
+           c.lineTo(45,150);
+           c.stroke();
+
+           c.beginPath();
+           c.moveTo(120,0);
+           c.lineTo(120,150);
+           c.stroke();
+
+           c.beginPath();
+           c.moveTo(200,0);
+           c.lineTo(200,150);
+           c.stroke();
+
+           c.beginPath();
+           c.moveTo(280,0);
+           c.lineTo(280,150);
+           c.stroke();
+        }
+        ladder();
+
+    </script>
+</body>
+</html>
