@@ -1,109 +1,39 @@
-let minus = document.querySelector('.minus');
-let plus = document.querySelector('.plus');
-let makeLadder = document.querySelector('.button');
-let count = 4;
+let count = 4
 let imgName = '';
 let destNum = '';
-let insertCanvas = '';
+var img1Dom;
+var img2Dom;
+var img3Dom;
+var img4Dom;
 
-// //이미지 객체 불러오기
-// var img1 = new Image();
-// img1.src = "img/1.png";
+//이미지 다운을 시키기 위한 정보
+var ladderData;
+var ladderCutVertical;
+var ladderCutHorizontal;
+
+let ladderFlag  = new Array();
+
 
 $(function(){
-    var form = {
-        userNum : count
+    //배열 초기화
+    for(var i = 0 ; i < 4;i++){
+        ladderFlag[i] = 0;
     }
+
     $.ajax({
-        url: "/start/countNum",
+        url: "/start/next2",
         type: "POST",
-        data: form,
-        dataType : 'json',
+        async : false,
         success: function(data){
-            console.log(data);
+            count = Number(data)
         },
         error: function(){
             alert("통신 중 에러가 발생했습니다.");
         }
     });
-    document.getElementById('userCount').value = count.toString();
-});
 
 
 
-//인원수를 줄였을 때의 작업
-minus.addEventListener('click',()=>{
-    if(count > 2) {
-        imgName = "";
-        destNum = ""
-        count--;
-        document.getElementById("num_name").innerHTML = count.toString();
-        for(let i = 1; i <=count; i++) {
-            imgName += '<li><img src="img/' + i.toString() + '.png" alt="" class = img' + i.toString() + '></li>'
-            destNum += '<li id = "dest' + i.toString() + '">' + i.toString() + '</li>'
-        }
-        document.getElementById("animal_image").innerHTML = imgName;
-        document.getElementById('destination_list').innerHTML = destNum;
-    }
-    else{
-        alert("더이상 줄일 수 없습니다!");
-    }
-    var form = {
-        userNum : count
-    }
-    $.ajax({
-        url: "/start/countNum",
-        type: "POST",
-        data: form,
-        dataType : 'json',
-        success: function(data){
-            console.log(data);
-            document.getElementById('userCount').value = count.toString();
-        },
-        error: function(){
-            alert("통신 중 에러가 발생했습니다.");
-        }
-    });
-});
-
-//인원수를 늘렸을 때의 작업
-plus.addEventListener('click',()=>{
-    if(count < 4) {
-        imgName = "";
-        destNum = ""
-        count++;
-        document.getElementById("num_name").innerHTML = count.toString();
-
-        for(let i = 1; i <=count; i++) {
-            imgName += '<li><img src="img/' + i.toString() + '.png" alt=""></li>'
-            destNum += '<li id = "dest' + i.toString() + '">' + i.toString() + '</li>'
-        }
-        document.getElementById("animal_image").innerHTML = imgName;
-        document.getElementById('destination_list').innerHTML = destNum;
-    }
-    else{
-        alert("더이상 늘릴 수 없습니다!");
-    }
-    var form = {
-        userNum : count
-    }
-    $.ajax({
-        url: "/start/countNum",
-        type: "POST",
-        data: form,
-        dataType : 'json',
-        success: function(data){
-            console.log(data);
-            document.getElementById('userCount').value = count.toString();
-        },
-        error: function(){
-            alert("통신 중 에러가 발생했습니다.");
-        }
-    });
-});
-
-//start버튼을 눌렸을 때의 작업
-makeLadder.addEventListener('click',()=>{
     var form = {
         userNum : count
     }
@@ -112,6 +42,7 @@ makeLadder.addEventListener('click',()=>{
         type: "POST",
         data: form,
         dataType : 'json',
+        async : false,
         success: function(data){
             //html 수정
             insertCanvas = '<canvas id = \"paper\" class = \"ladder_paper\" ></canvas>';
@@ -124,7 +55,84 @@ makeLadder.addEventListener('click',()=>{
             alert("통신 중 에러가 발생했습니다.");
         }
     });
+
+
+    for(let i = 1; i <=count; i++) {
+        imgName += '<li><img src="../img/' + i.toString() + '.png" alt="" class = img' + i.toString() + '></li>'
+        destNum += '<li id = "../dest' + i.toString() + '">' + i.toString() + '</li>'
+    }
+    document.getElementById("animal_image").innerHTML = imgName;
+    document.getElementById('destination_list').innerHTML = destNum;
+
+    img1Dom = document.querySelector('.img1');
+    img2Dom = document.querySelector(".img2");
+    img3Dom = document.querySelector(".img3");
+    img4Dom = document.querySelector(".img4");
+
+
+    //이미지마다 클릭 이벤트를 넣는 작업
+    img1Dom.addEventListener('click',()=>{
+        //새로운 사다리 갱신
+        for(var i = 0 ; i < 4;i++){
+            if(i !== 0) {
+                ladderFlag[i] = 1;
+            }
+            else{
+                ladderFlag[i] = 0;
+            }
+        }
+        createLadder(ladderData);
+        imageDown(ladderData,ladderCutVertical,ladderCutHorizontal,0);
+    });
+
+    img2Dom.addEventListener('click',()=>{
+        //새로운 사다리 갱신
+        for(var i = 0 ; i < 4;i++){
+            if(i !== 1) {
+                ladderFlag[i] = 1;
+            }
+            else{
+                ladderFlag[i] = 0;
+            }
+        }
+        createLadder(ladderData);
+        imageDown(ladderData,ladderCutVertical,ladderCutHorizontal,1);
+    });
+
+    if(count >= 3) {
+        img3Dom.addEventListener('click', () => {
+            //새로운 사다리 갱신
+            for(var i = 0 ; i < 4;i++){
+                if(i !== 2) {
+                    ladderFlag[i] = 1;
+                }
+                else{
+                    ladderFlag[i] = 0;
+                }
+            }
+            createLadder(ladderData);
+            imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 2);
+        });
+    }
+
+    if(count >= 4) {
+        img4Dom.addEventListener('click', () => {
+            //새로운 사다리 갱신
+            for(var i = 0 ; i < 4;i++){
+                if(i !== 3) {
+                    ladderFlag[i] = 1;
+                }
+                else{
+                    ladderFlag[i] = 0;
+                }
+            }
+            createLadder(ladderData);
+            imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 3);
+        });
+    }
+
 });
+
 
 /*
  *사다리를 만드는 작업
@@ -223,7 +231,11 @@ function createLadder(data){
     console.log("날아간 데이터");
     console.log(data);
 
-    imageDown(data,cutVertical,cutHorizontal,0)
+    ladderData = data;
+    ladderCutVertical = cutVertical;
+    ladderCutHorizontal = cutHorizontal;
+
+    // imageDown(data,cutVertical,cutHorizontal,1);
 
 }
 
@@ -296,6 +308,9 @@ function imageDown(data,cutVertical,cutHorizontal,unitNum){
         }
         else if(posY === cutHorizontal[cutHorizontal.length-1]){
             //5만큼 더 움직이고 나감
+            clearInterval(interval);
+        }
+        else if(ladderFlag[unitNum] === 1){
             clearInterval(interval);
         }
         //가로선으로 움직이는 작업

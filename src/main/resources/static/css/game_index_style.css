@@ -4,6 +4,8 @@
 
 .wrap{width: 90%; height: 90%; margin: auto;}
 @media all and (min-width:360px) {
+    #invisible{visibility:hidden}
+
     .wrap .img_list ul{list-style-type: none; display: flex;
         padding-top: 3%; margin: auto; padding-left: 0;}
     .wrap .img_list ul li{flex: 4; text-align: center;}

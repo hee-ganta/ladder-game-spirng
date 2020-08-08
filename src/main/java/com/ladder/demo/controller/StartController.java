@@ -3,8 +3,10 @@ package com.ladder.demo.controller;
 import com.ladder.demo.status.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,10 +15,20 @@ import java.util.*;
 @Controller
 public class StartController {
 
+    private int userNum = 4; // 현재 유저의 숫자
+
+    private String stringUserNum = "4"; //현재 유저의 숫자
+
     private List<List<Pair>> resCandidate;
 
     public StartController(){
         this.resCandidate = new ArrayList<>();
+    }
+
+    @GetMapping("/test/{name}")
+    public String testProject(@PathVariable String name, ModelMap model){
+        model.addAttribute("who",name);
+        return "test";
     }
 
     //초기 화면의 구상
@@ -154,8 +166,10 @@ public class StartController {
     public List<Pair> simulateLadder(@RequestParam("userNum") int userNum){
         List<Pair> res;
 
-        int rowNum = userNum + 3;
-        int colNum = userNum;
+        System.out.println("!!" + userNum);
+
+        int rowNum = this.userNum + 3;
+        int colNum = this.userNum;
 
         //연결 상태의 정보를 저장하는 Map의 생성
         int[][] map = new int[rowNum][colNum];
@@ -173,10 +187,33 @@ public class StartController {
         return res;
     }
 
-    @GetMapping("start/result")
-    public String result(){
-        return "game_index01";
+    @PostMapping("/start/countNum")
+    @ResponseBody
+    public int countUser(@RequestParam("userNum") int userNum){
+        this.userNum = userNum;
+
+        return this.userNum;
+
     }
+
+    @GetMapping("start/next")
+    public ModelAndView result(@RequestParam("userCount") String userCount){
+        ModelAndView view = new ModelAndView();
+        view.setViewName("game_index01");
+        view.addObject("userCount",userCount);
+        this.stringUserNum = userCount;
+        System.out.println("aaa : " + userCount);
+        return view;
+    }
+
+
+    @PostMapping("/start/next2")
+    @ResponseBody
+    public String settingNext(){
+
+        return this.stringUserNum;
+    }
+
 
 
 }

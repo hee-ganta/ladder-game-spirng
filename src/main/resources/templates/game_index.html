@@ -13,23 +13,22 @@
 
 <body>
    <div class="wrap">
+<!--       <form action="/start/next" method="POST">-->
 
-   <div class="icon">
-        <ul>
-        <li><img src="img/icon_01.png" alt class="plus" id = "btn1"></li>
-        <li class="icon_05 number" id = "num_name">4</li>
-        <li><img src="img/icon_02.png" alt class ="minus" id = "btn2"></li>
-        </ul>
-        
-    </div>
+           <div class="icon">
+               <ul>
+                   <li><img src="img/icon_01.png" alt class="plus" id = "btn1"></li>
+                   <li class="icon_05 number" id = "num_name">4</li>
+                   <li><img src="img/icon_02.png" alt class ="minus" id = "btn2"></li>
+               </ul>
+           </div>
 
-
-    <div class="img_list">
+           <div class="img_list">
             <ul class = "img_list_ul" id = "animal_image">
-                <li><img src="img/1.png" alt="" id = "img1"></li>
-                <li><img src="img/2.png" alt="" id = "img2"></li>
-                <li><img src="img/3.png" alt="" id = "img3"></li>
-                <li><img src="img/4.png" alt="" id = img4></li>
+                <li><img src="img/1.png" alt="" id = "img1" class = "img1"></li>
+                <li><img src="img/2.png" alt="" id = "img2" class = "img2"></li>
+                <li><img src="img/3.png" alt="" id = "img3" class = "img3"></li>
+                <li><img src="img/4.png" alt="" id = "img4" class = "img4"></li>
             </ul>
 
                <div class = "ladder" id = "ladder_body">
@@ -37,6 +36,27 @@
                        <span class="button_text">START</span>
                    </div>
                </div>
+
+               <form action="/start/next" method="get">
+                   <div id = "invisible" style = "display:none">
+                        <input id="userCount" name="userCount" type="text"/>
+                   </div>
+                    <div class = "ladder" id = "ladder_body01">
+                        <div class="button">
+                            <input type = "submit" value = "START" class="button_text">
+                        </div>
+                    </div>
+               </form>
+
+<!--               <form action="/start/next" method="get">-->
+<!--                   <input id="name" name="nameTemp" type="text" value = "4"/>-->
+<!--                    <div class = "ladder" id = "ladder_body01">-->
+<!--                        <div class="button">-->
+<!--                            <input type="submit" value = "START">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--               </form>-->
+<!--               </div>-->
 
             <div class="button_list">
                 <ul id = "destination_list">
@@ -46,7 +66,8 @@
                     <li id = "dest4">4</li>
                 </ul>
             </div>
-    </div>
+        </div>
+<!--       </form>-->
 
       
       <div class="textbox">
