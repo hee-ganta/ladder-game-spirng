@@ -37,7 +37,7 @@
     .textbox li{font-family: 'Jua', sans-serif; font-weight: bold; color:#666; }
     .textbox .text{flex: 2; display: flex; margin-bottom: -2%; }
     .textbox .text p{font-family: 'Jua', sans-serif;}
-    .textbox .text .rere_01{ font-size: 1.3rem; padding-left: 3.5%; width: 30%; text-align:left; color:#333;}
+    .textbox .text .rere_01{ font-size: 1.5rem; padding-left: 3.5%; width: 30%; text-align:left; color:#333;}
     .textbox .text .rere{ margin-left: 1%; padding: 1%; border: 1px solid #999; border-radius: 3%; margin-left: 42%; width: 20%; text-align: center;
         font-size: 1rem;color: #666; height: 12%; box-shadow: #999 2.5px 3px;}
 
@@ -45,13 +45,13 @@
 
 
     .textbox .text_box01{display: flex; list-style-type: none; margin-bottom: 5%;
-        padding-left: 0; text-align: center;}
+        padding-left: 0; text-align: center;margin-top: 5%}
     .textbox .text_box01 .box01{flex: 2;}
-    .textbox .text_box01 .box02{flex: 2;}
+    .textbox .text_box01 .box02{flex: 2; font-family: 'Jua', sans-serif; text-align: -moz-center;}
     .textbox .text_box02{display: flex; list-style-type: none; padding-left: 0;
         text-align: center;}
-    .textbox .text_box02 .box03{flex: 2;}
-    .textbox .text_box02 .box04{flex: 2;}
+    .textbox .text_box02 .box03{flex: 2; font-family: 'Jua', sans-serif; text-align: -moz-center;}
+    .textbox .text_box02 .box04{flex: 2; font-family: 'Jua', sans-serif; text-align: -moz-center;}
 
 
     /*.textbox_box{width: 90%; height: auto; padding-left: 5%}*/
@@ -63,5 +63,6 @@
     .wrap .icon img{width: 2%;}
     .wrap .icon ul li{display: inline; padding-right: 2%}
     .icon_05{font-size: 3vw; color: #666; font-family: 'Jua', sans-serif;}
+
 
 }

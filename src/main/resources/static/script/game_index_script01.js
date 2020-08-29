@@ -11,13 +11,40 @@ var ladderData;
 var ladderCutVertical;
 var ladderCutHorizontal;
 
+//작업을 중지표시하기 위한 변수
 let ladderFlag  = new Array();
+
+//투명도 조절 아이디 찾기
+let opacityControll = '';
+
+$(document).ready(function(){
+
+    let formObj = $("form");
+
+
+    //되돌리기 버튼 작업
+    $('.button_51').on("click",function(e){
+        e.preventDefault();
+
+        formObj.attr("action", "/").attr("method","post");
+        formObj.submit();
+    });
+
+    //결과 창 버튼 작업
+    $('.button_50').on("click",function(e){
+        e.preventDefault();
+
+        formObj.attr("action", "/result").attr("method","post");
+        formObj.submit();
+    });
+
+});
 
 
 $(function(){
     //배열 초기화
     for(var i = 0 ; i < 4;i++){
-        ladderFlag[i] = 0;
+        ladderFlag[i] = 1;
     }
 
     $.ajax({
@@ -31,8 +58,6 @@ $(function(){
             alert("통신 중 에러가 발생했습니다.");
         }
     });
-
-
 
     var form = {
         userNum : count
@@ -56,13 +81,25 @@ $(function(){
         }
     });
 
+    //결과를 미리 저장
+    for(let i = 0 ;  i < count ; i++){
+        let destination = imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, i,false);
+        let resultId = 'result' + (i+1).toString();
+
+        document.getElementById(resultId).value = destination.toString();
+
+    }
+
 
     for(let i = 1; i <=count; i++) {
-        imgName += '<li><img src="../img/' + i.toString() + '.png" alt="" class = img' + i.toString() + '></li>'
-        destNum += '<li id = "../dest' + i.toString() + '">' + i.toString() + '</li>'
+        imgName += '<li><img src="../img/' + i.toString() + '.png" alt="" id = img' + i.toString() +'Id class = img' + i.toString() + '></li>'
+        destNum += '<li id = "dest' + i.toString() + '">' + i.toString() + '</li>'
     }
     document.getElementById("animal_image").innerHTML = imgName;
     document.getElementById('destination_list').innerHTML = destNum;
+
+
+
 
     img1Dom = document.querySelector('.img1');
     img2Dom = document.querySelector(".img2");
@@ -72,62 +109,94 @@ $(function(){
 
     //이미지마다 클릭 이벤트를 넣는 작업
     img1Dom.addEventListener('click',()=>{
+        //현재 진행이 되어 있는지 체크를 하는 변수
+        let ingCheck = 0;
         //새로운 사다리 갱신
-        for(var i = 0 ; i < 4;i++){
+        for(var i = 0 ; i < count;i++){
+            document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:1,0');
             if(i !== 0) {
+                document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:0.6');
                 ladderFlag[i] = 1;
             }
             else{
-                ladderFlag[i] = 0;
+                //닫혀져 있으면 열어줌
+                if(ladderFlag[i] === 1){ ladderFlag[i] = 0; ingCheck = 1;}
             }
         }
-        createLadder(ladderData);
-        imageDown(ladderData,ladderCutVertical,ladderCutHorizontal,0);
+
+        //현재 해당 이미지가 수행이 되지 않고 있을때만 수행
+        if(ingCheck === 1) {
+            createLadder(ladderData);
+            imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 0,true);
+        }
     });
 
     img2Dom.addEventListener('click',()=>{
+        //현재 진행이 되어 있는지 체크를 하는 변수
+        let ingCheck = 0;
         //새로운 사다리 갱신
-        for(var i = 0 ; i < 4;i++){
+        for(var i = 0 ; i < count;i++){
+            document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:1,0');
             if(i !== 1) {
+                document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:0.6');
                 ladderFlag[i] = 1;
             }
             else{
-                ladderFlag[i] = 0;
+                //닫혀져 있으면 열어줌
+                if(ladderFlag[i] === 1){ ladderFlag[i] = 0; ingCheck = 1;}
             }
         }
-        createLadder(ladderData);
-        imageDown(ladderData,ladderCutVertical,ladderCutHorizontal,1);
+
+        if(ingCheck === 1) {
+            createLadder(ladderData);
+            imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 1,true);
+        }
     });
 
     if(count >= 3) {
         img3Dom.addEventListener('click', () => {
+            //현재 진행이 되어 있는지 체크를 하는 변수
+            let ingCheck = 0;
             //새로운 사다리 갱신
-            for(var i = 0 ; i < 4;i++){
+            for(let i = 0 ; i < count;i++){
+                document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:1,0');
                 if(i !== 2) {
+                    document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:0.6');
                     ladderFlag[i] = 1;
                 }
                 else{
-                    ladderFlag[i] = 0;
+                    //닫혀져 있으면 열어줌
+                    if(ladderFlag[i] === 1){ ladderFlag[i] = 0; ingCheck = 1;}
                 }
             }
-            createLadder(ladderData);
-            imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 2);
+
+            if(ingCheck === 1) {
+                createLadder(ladderData);
+                imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 2,true);
+            }
         });
     }
 
     if(count >= 4) {
         img4Dom.addEventListener('click', () => {
+            //현재 진행이 되어 있는지 체크를 하는 변수
+            let ingCheck = 0;
             //새로운 사다리 갱신
-            for(var i = 0 ; i < 4;i++){
+            for(var i = 0 ; i < count;i++){
+                document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:1,0');
                 if(i !== 3) {
+                    document.getElementById('img' + (i+1).toString() + 'Id').setAttribute('style','opacity:0.6');
                     ladderFlag[i] = 1;
                 }
                 else{
-                    ladderFlag[i] = 0;
+                    //닫혀져 있으면 열어줌
+                    if(ladderFlag[i] === 1){ ladderFlag[i] = 0; ingCheck = 1;}
                 }
             }
-            createLadder(ladderData);
-            imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 3);
+            if(ingCheck === 1) {
+                createLadder(ladderData);
+                imageDown(ladderData, ladderCutVertical, ladderCutHorizontal, 3,true);
+            }
         });
     }
 
@@ -200,7 +269,7 @@ function createLadder(data){
     c.fillStyle = "white";
     c.fillRect(0,0,canvas.width,canvas.height);
 
-    c.strokeStyle = "balck";
+    c.strokeStyle = "#666";
     c.lineWidth = 2;
 
     //세로선을 지정
@@ -212,15 +281,10 @@ function createLadder(data){
     }
 
     //가로선을 그리는 작업
-    console.log(data);
-    console.log(cutVertical);
-    console.log(cutHorizontal)
     $.each(data,function(i,v){
         //데이터 인풋
         horizontalIdx = Number(v.horizontal);
         verticalIdx = Number(v.vertical);
-        console.log(horizontalIdx);
-        console.log(verticalIdx);
 
         c.beginPath();
         c.moveTo(cutVertical[verticalIdx],cutHorizontal[horizontalIdx+1]);
@@ -228,14 +292,10 @@ function createLadder(data){
         c.stroke();
 
     });
-    console.log("날아간 데이터");
-    console.log(data);
 
     ladderData = data;
     ladderCutVertical = cutVertical;
     ladderCutHorizontal = cutHorizontal;
-
-    // imageDown(data,cutVertical,cutHorizontal,1);
 
 }
 
@@ -246,8 +306,10 @@ function createLadder(data){
  * cutVertical : 수직 좌표정보
  * cutHorizontal : 수평 좌표정보
  * unitNum : 현재 유낫의 정보
+ * draw : 그림을 그릴 것인지 안그릴 것인지 판단(true: 그림을 그림, false: 그림을 그리지 않음)
+ * return : 목적지를 반환
  */
-function imageDown(data,cutVertical,cutHorizontal,unitNum){
+function imageDown(data,cutVertical,cutHorizontal,unitNum,draw){
     let canvas = document.getElementById("paper"),
         c = canvas.getContext("2d"),
         TWO_PI = Math.PI * 2;
@@ -278,17 +340,18 @@ function imageDown(data,cutVertical,cutHorizontal,unitNum){
     //유닛에 따른 초기값 설정
     let currentLocation = unitNum;
     let lineColor = "";
+
     if(unitNum === 0){
-        lineColor = "red";
+        lineColor = "#99ccff";
     }
     else if(unitNum === 1){
-        lineColor = "blue";
+        lineColor = "#ff9999";
     }
     else if(unitNum === 2){
-        lineColor = "green";
+        lineColor = "#66cc99";
     }
     else{
-        lineColor = "purple"
+        lineColor = "#ffcc00"
     }
 
     let posY = 0;
@@ -296,93 +359,161 @@ function imageDown(data,cutVertical,cutHorizontal,unitNum){
     let directionCheck = 0; //0은 세로방향, 1은 가로방향
     let prevLocation;
     let nextLocation;
-    let interval = setInterval(function () {
 
-        //중지조건
-        if(posY >= cutHorizontal[cutHorizontal.length-1] - 5){
-            c.fillStyle = lineColor;
-            c.beginPath();
-            c.arc(cutVertical[currentLocation], posY, 1.5, 0, TWO_PI, false);
-            c.fill();
-            posY += 1;
-        }
-        else if(posY === cutHorizontal[cutHorizontal.length-1]){
-            //5만큼 더 움직이고 나감
-            clearInterval(interval);
-        }
-        else if(ladderFlag[unitNum] === 1){
-            clearInterval(interval);
-        }
-        //가로선으로 움직이는 작업
-        else if(directionCheck === 1){
-            if(prevLocation > nextLocation){
-                directionCheck = 0;
-            }
-            else {
+    if(draw == true) {
+        let interval = setInterval(function () {
+            //중지조건
+            if (posY === cutHorizontal[cutHorizontal.length - 1]) {
+                //5만큼 더 움직이고 나감
+                //색을 지정
+                let idName = 'dest' + (currentLocation + 1).toString();
+
+                if (currentLocation === 0) {
+                    document.getElementById(idName).style.backgroundColor = lineColor;
+                } else if (currentLocation === 1) {
+                    document.getElementById(idName).style.backgroundColor = lineColor;
+                } else if (currentLocation === 2) {
+                    document.getElementById(idName).style.backgroundColor = lineColor;
+                } else if (currentLocation === 3) {
+                    document.getElementById(idName).style.backgroundColor = lineColor;
+                }
+
+                //flag를 닫아줌
+                ladderFlag[unitNum] = 1;
+                clearInterval(interval);
+            } else if (posY >= cutHorizontal[cutHorizontal.length - 1] - 5) {
                 c.fillStyle = lineColor;
                 c.beginPath();
-                c.arc(prevLocation, posY, 1.5, 0, TWO_PI, false);
+                c.arc(cutVertical[currentLocation], posY, 1.5, 0, TWO_PI, false);
                 c.fill();
-                prevLocation += 1;
+                posY += 1;
+            } else if (ladderFlag[unitNum] === 1) {
+                clearInterval(interval);
             }
+            //가로선으로 움직이는 작업
+            else if (directionCheck === 1) {
+                if (prevLocation > nextLocation) {
+                    directionCheck = 0;
+                } else {
+                    c.fillStyle = lineColor;
+                    c.beginPath();
+                    c.arc(prevLocation, posY, 1.5, 0, TWO_PI, false);
+                    c.fill();
+                    prevLocation += 1;
+                }
 
-        }
-        else if(directionCheck === 2){
-            if(prevLocation < nextLocation){
-                directionCheck = 0;
-            }
-            else {
+            } else if (directionCheck === 2) {
+                if (prevLocation < nextLocation) {
+                    directionCheck = 0;
+                } else {
+                    c.fillStyle = lineColor;
+                    c.beginPath();
+                    c.arc(prevLocation, posY, 1.5, 0, TWO_PI, false);
+                    c.fill();
+                    prevLocation -= 1;
+                }
+            } else if (posY < cutHorizontal[horizontalIdx] && directionCheck === 0) {
                 c.fillStyle = lineColor;
                 c.beginPath();
-                c.arc(prevLocation, posY, 1.5, 0, TWO_PI, false);
+                c.arc(cutVertical[currentLocation], posY, 1.5, 0, TWO_PI, false);
                 c.fill();
-                prevLocation -= 1;
+                posY += 1;
+            } else if (posY >= cutHorizontal[horizontalIdx]) {
+                if (currentLocation === 0) {
+                    if (map[horizontalIdx][currentLocation] === 1) {
+                        directionCheck = 1;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation + 1];
+                        currentLocation += 1;
+                    }
+                    horizontalIdx += 1;
+                } else if (currentLocation === (cutVertical.length - 1)) {
+                    if (map[horizontalIdx][currentLocation - 1] === 1) {
+                        directionCheck = 2;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation - 1];
+                        currentLocation -= 1;
+                    }
+                    horizontalIdx += 1;
+                } else {
+                    if (map[horizontalIdx][currentLocation] === 1) {
+                        directionCheck = 1;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation + 1];
+                        currentLocation += 1;
+                    } else if (map[horizontalIdx][currentLocation - 1] === 1) {
+                        directionCheck = 2;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation - 1];
+                        currentLocation -= 1;
+                    }
+                    horizontalIdx += 1;
+                }
             }
-        }
-        else if(posY < cutHorizontal[horizontalIdx] && directionCheck === 0) {
-            c.fillStyle = lineColor;
-            c.beginPath();
-            c.arc(cutVertical[currentLocation], posY, 1.5, 0, TWO_PI, false);
-            c.fill();
-            posY += 1;
-        }
-        else if(posY >= cutHorizontal[horizontalIdx]){
-            console.log(horizontalIdx);
-            console.log(currentLocation);
+        }, 0.5);
+    }
+    else{
+        while(true) {
+            //중지조건
+            if (posY === cutHorizontal[cutHorizontal.length - 1]) {
+                break;
+            }
+            else if (posY >= cutHorizontal[cutHorizontal.length - 1] - 5) {
+                posY += 1;
+            }
+            //가로선으로 움직이는 작업
+            else if (directionCheck === 1) {
+                if (prevLocation > nextLocation) {
+                    directionCheck = 0;
+                } else {
+                    prevLocation += 1;
+                }
 
-            if(currentLocation === 0){
-                if(map[horizontalIdx][currentLocation] === 1){
-                    directionCheck = 1;
-                    prevLocation = cutVertical[currentLocation];
-                    nextLocation = cutVertical[currentLocation + 1];
-                    currentLocation += 1;
-                }
-                horizontalIdx += 1;
             }
-            else if(currentLocation === (cutVertical.length - 1)){
-                if(map[horizontalIdx][currentLocation-1] === 1){
-                    directionCheck = 2;
-                    prevLocation = cutVertical[currentLocation];
-                    nextLocation = cutVertical[currentLocation - 1];
-                    currentLocation -= 1;
+            else if (directionCheck === 2) {
+                if (prevLocation < nextLocation) {
+                    directionCheck = 0;
+                } else {
+                    prevLocation -= 1;
                 }
-                horizontalIdx += 1;
             }
-            else{
-                if(map[horizontalIdx][currentLocation] === 1){
-                    directionCheck = 1;
-                    prevLocation = cutVertical[currentLocation];
-                    nextLocation = cutVertical[currentLocation + 1];
-                    currentLocation += 1;
+            else if (posY < cutHorizontal[horizontalIdx] && directionCheck === 0) {
+                posY += 1;
+            }
+            else if (posY >= cutHorizontal[horizontalIdx]) {
+                if (currentLocation === 0) {
+                    if (map[horizontalIdx][currentLocation] === 1) {
+                        directionCheck = 1;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation + 1];
+                        currentLocation += 1;
+                    }
+                    horizontalIdx += 1;
+                } else if (currentLocation === (cutVertical.length - 1)) {
+                    if (map[horizontalIdx][currentLocation - 1] === 1) {
+                        directionCheck = 2;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation - 1];
+                        currentLocation -= 1;
+                    }
+                    horizontalIdx += 1;
+                } else {
+                    if (map[horizontalIdx][currentLocation] === 1) {
+                        directionCheck = 1;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation + 1];
+                        currentLocation += 1;
+                    } else if (map[horizontalIdx][currentLocation - 1] === 1) {
+                        directionCheck = 2;
+                        prevLocation = cutVertical[currentLocation];
+                        nextLocation = cutVertical[currentLocation - 1];
+                        currentLocation -= 1;
+                    }
+                    horizontalIdx += 1;
                 }
-                else if(map[horizontalIdx][currentLocation-1] === 1){
-                    directionCheck = 2;
-                    prevLocation = cutVertical[currentLocation];
-                    nextLocation = cutVertical[currentLocation - 1];
-                    currentLocation -= 1;
-                }
-                horizontalIdx += 1;
             }
         }
-    }, 30);
+    }
+
+    return currentLocation+1;
 }

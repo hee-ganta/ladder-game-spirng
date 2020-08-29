@@ -1,6 +1,4 @@
-package com.ladder.demo.status;
-
-import org.springframework.stereotype.Component;
+package com.ladder.demo.domain;
 
 
 public class Pair {

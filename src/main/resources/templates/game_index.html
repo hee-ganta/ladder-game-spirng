@@ -2,95 +2,84 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" content="text/html; charset=UTF-8">
-    <title>사다리 만들기 전</title>
+    <title>사다리 타기 게임</title>
 <!--    추가로 넣어준 사항-->
     <script src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimun-scale=1, maximum-scale=1, user-scalable=no">
     <link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
     <link rel = "stylesheet" href = "css/game_index_style.css">
+
+    <style>
+        input{font-family: 'Jua', sans-serif;color: #666;border: solid 2px; border-radius: 10px;text-align :center;  font-size: 2vw;}
+    </style>
 </head>
 
-
 <body>
-   <div class="wrap">
-<!--       <form action="/start/next" method="POST">-->
 
-           <div class="icon">
-               <ul>
-                   <li><img src="img/icon_01.png" alt class="plus" id = "btn1"></li>
-                   <li class="icon_05 number" id = "num_name">4</li>
-                   <li><img src="img/icon_02.png" alt class ="minus" id = "btn2"></li>
-               </ul>
-           </div>
-
-           <div class="img_list">
-            <ul class = "img_list_ul" id = "animal_image">
-                <li><img src="img/1.png" alt="" id = "img1" class = "img1"></li>
-                <li><img src="img/2.png" alt="" id = "img2" class = "img2"></li>
-                <li><img src="img/3.png" alt="" id = "img3" class = "img3"></li>
-                <li><img src="img/4.png" alt="" id = "img4" class = "img4"></li>
-            </ul>
-
-               <div class = "ladder" id = "ladder_body">
-                   <div class="button">
-                       <span class="button_text">START</span>
-                   </div>
-               </div>
-
-               <form action="/start/next" method="get">
-                   <div id = "invisible" style = "display:none">
-                        <input id="userCount" name="userCount" type="text"/>
-                   </div>
-                    <div class = "ladder" id = "ladder_body01">
-                        <div class="button">
-                            <input type = "submit" value = "START" class="button_text">
-                        </div>
-                    </div>
-               </form>
-
-<!--               <form action="/start/next" method="get">-->
-<!--                   <input id="name" name="nameTemp" type="text" value = "4"/>-->
-<!--                    <div class = "ladder" id = "ladder_body01">-->
-<!--                        <div class="button">-->
-<!--                            <input type="submit" value = "START">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--               </form>-->
-<!--               </div>-->
-
-            <div class="button_list">
-                <ul id = "destination_list">
-                    <li id = "dest1">1</li>
-                    <li id = "dest2">2</li>
-                    <li id = "dest3">3</li>
-                    <li id = "dest4">4</li>
+    <form action="/start/next" method="post">
+        <div class="wrap">
+            <div class="icon">
+                <ul>
+                    <li><img src="img/icon_01.png" alt class="plus" id = "btn1"></li>
+                    <li class="icon_05 number" id = "num_name">4</li>
+                    <li><img src="img/icon_02.png" alt class ="minus" id = "btn2"></li>
                 </ul>
             </div>
+
+            <div class="img_list">
+                <ul class = "img_list_ul" id = "animal_image">
+                    <li><img src="img/1.png" alt="" id = "img1" class = "img1"></li>
+                    <li><img src="img/2.png" alt="" id = "img2" class = "img2"></li>
+                    <li><img src="img/3.png" alt="" id = "img3" class = "img3"></li>
+                    <li><img src="img/4.png" alt="" id = "img4" class = "img4"></li>
+                </ul>
+
+
+               <div id = "invisible" style = "display:none">
+                   <input id="userCount" name="userCount" type="text"/>
+               </div>
+
+                <div class = "ladder" id = "ladder_body">
+                    <div class="button">
+                        <span class="button_text">START</span>
+                    </div>
+                </div>
+
+
+                <div class="button_list">
+                    <ul id = "destination_list">
+                        <li id = "dest1">1</li>
+                        <li id = "dest2">2</li>
+                        <li id = "dest3">3</li>
+                        <li id = "dest4">4</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="textbox">
+                <div class="text"><p class="rere_01">내기 설정</p> <p class="rere">초기화</p></div>
+
+                <div class="textbox_box">
+                    <ul class="text_box01">
+                        <li class="box01" id = "box1">1<input type="text" name="text1" id = "text1" style = "margin-left: 3%"></li>
+                        <li class="box02" id = "box2">2<input type="text" name="text2" id = "text2" style = "margin-left: 3%"></li>
+                    </ul>
+
+                    <ul class="text_box02">
+                        <li class="box03" id = "box3">3<input type="text" name="text3" id = "text3" style = "margin-left: 3%"></li>
+                        <li class="box04" id = "box4">4<input type="text" name="text4" id = "text4" style = "margin-left: 3%"></li>
+                    </ul>
+
+                </div>
+
+                <div class="footer">
+                    <p>Copyright Ⓒ Meeteum - Son . All rights reserved.</p>
+                </div>
+            </div>
+
         </div>
-<!--       </form>-->
+    </form>
 
-      
-      <div class="textbox">
-          <div class="text"><p class="rere_01">내기 설정</p> <p class="rere">초기화</p></div>
-
-          <div class="textbox_box">
-              <ul class="text_box01">
-                  <li class="box01">1&nbsp; <input type="text" name=""></li>
-                  <li class="box02">2&nbsp; <input type="text" name=""></li>
-              </ul>
-          
-              <ul class="text_box02">
-                    <li class="box03">3&nbsp; <input type="text" name=""></li>
-                    <li class="box04">4&nbsp; <input type="text" name=""></li>
-              </ul>
-          </div>
-
-          <div class="footer">
-             <p>Copyright Ⓒ Meeteum - Son . All rights reserved.</p>
-          </div>
-      </div>
-
-    </div>
    <script src="script/game_index_script.js"></script>
 </body>
 </html>

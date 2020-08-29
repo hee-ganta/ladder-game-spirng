@@ -1,15 +1,14 @@
 package com.ladder.demo.controller;
 
-import com.ladder.demo.status.Pair;
+import com.ladder.demo.domain.Pair;
+import com.ladder.demo.domain.ResultVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -33,21 +32,20 @@ public class StartController {
 
     //초기 화면의 구상
     @GetMapping("/")
-    public String startProject(HttpServletRequest request){
+    public String getStartProject(HttpServletRequest request){
         return "game_index";
     }
+
+    @PostMapping("/")
+    public String postStartProject(HttpServletRequest request){return "game_index";}
 
 
     @PostMapping("/start/count")
     @ResponseBody
     public List<Integer> count(@RequestParam("id") String id){
         List<Integer> list = new ArrayList<>();
-
         list.add(1);
         list.add(2);
-
-        System.out.println(id);
-
         return list;
     }
     
@@ -107,7 +105,6 @@ public class StartController {
         if(r == (maxRow-1) && c == (maxCol-1)){
             //시뮬레이션을 통과해야 후보군에 저장
             if(simulate(map,maxRow,maxCol)){
-//                Map<Integer,Integer> insert = new HashMap<>();
                 List<Pair> insert =  new ArrayList<>();
                 for(int i = 0 ; i < maxRow; i++){
                     for(int j = 0; j < maxCol; j++){
@@ -165,11 +162,13 @@ public class StartController {
     @ResponseBody
     public List<Pair> simulateLadder(@RequestParam("userNum") int userNum){
         List<Pair> res;
+        this.resCandidate.clear();
 
-        System.out.println("!!" + userNum);
+
 
         int rowNum = this.userNum + 3;
         int colNum = this.userNum;
+
 
         //연결 상태의 정보를 저장하는 Map의 생성
         int[][] map = new int[rowNum][colNum];
@@ -183,7 +182,6 @@ public class StartController {
         int pick = (int)(Math.random() * this.resCandidate.size());
 
         res = this.resCandidate.get(pick);
-
         return res;
     }
 
@@ -196,13 +194,63 @@ public class StartController {
 
     }
 
-    @GetMapping("start/next")
-    public ModelAndView result(@RequestParam("userCount") String userCount){
+    @PostMapping("start/next")
+    public ModelAndView action(@RequestParam Map<String, String> params, Model model){
+
+        ResultVO resultVO = new ResultVO();
+        String userCount = params.get("userCount");
+        String text1 = params.get("text1");
+        String text2 = params.get("text2");
+        String text3 = params.get("text3");
+        String text4 = params.get("text4");
+
+        resultVO.setResult1(text1);
+        resultVO.setResult2(text2);
+        resultVO.setResult3(text3);
+        resultVO.setResult4(text4);
+
+
         ModelAndView view = new ModelAndView();
         view.setViewName("game_index01");
         view.addObject("userCount",userCount);
+        view.addObject("result",resultVO);
         this.stringUserNum = userCount;
-        System.out.println("aaa : " + userCount);
+        return view;
+    }
+
+    //최종 화면 매핑
+    @PostMapping("/result")
+    public ModelAndView  result(@RequestParam Map<String, String> params, Model model){
+        ResultVO resultVO = new ResultVO();
+        ResultVO resultVOBottom = new ResultVO();
+
+        List<String> resultArr = new ArrayList<String>();
+
+        Integer userCount = Integer.parseInt(params.get("userCount"));
+        resultArr.add(params.get("text1"));
+        resultArr.add(params.get("text2"));
+        resultArr.add(params.get("text3"));
+        resultArr.add(params.get("text4"));
+
+        resultVO.setResult1(resultArr.get(Integer.parseInt(params.get("result1")) - 1));
+        resultVO.setResult2(resultArr.get(Integer.parseInt(params.get("result2")) - 1));
+        if(userCount >= 3){
+            resultVO.setResult3(resultArr.get(Integer.parseInt(params.get("result3")) - 1));
+        }
+        if(userCount >= 4){
+            resultVO.setResult4(resultArr.get(Integer.parseInt(params.get("result4")) - 1));
+        }
+
+        resultVOBottom.setResult1(resultArr.get(0));
+        resultVOBottom.setResult2(resultArr.get(1));
+        resultVOBottom.setResult3(resultArr.get(2));
+        resultVOBottom.setResult4(resultArr.get(3));
+
+        ModelAndView view = new ModelAndView();
+        view.setViewName("game_index02");
+        view.addObject("userCount",userCount);
+        view.addObject("result",resultVO);
+        view.addObject("resultBottom",resultVOBottom);
         return view;
     }
 

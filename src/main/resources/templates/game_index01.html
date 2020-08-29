@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>사다리를 타보세요</title>
     <script src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimun-scale=1, maximum-scale=1, user-scalable=no">
-    
     <link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
 
 
 <style>
+    .animate__animated.animate__bounce {
+        --animate-duration: 1s;
+    }
+
      /*{outline: solid 1px;}*/
     *{box-sizing: border-box;}
 
@@ -129,8 +133,12 @@
         input {
             width: 80%;
             height: 150%;
-            border: dashed 1px #666;
-            border-radius: 3%;
+            font-family: 'Jua', sans-serif;
+            color: #666;
+            border: solid 2px;
+            border-radius: 10px;
+            text-align :center;
+            font-size: 2vw;
         }
 
         .wrap .footer {
@@ -213,74 +221,84 @@
     }
 
 
-
-
 </style>
 </head>
 
 
 <body>
-   <div class="wrap">
-   
-<!--    <div class="icon">-->
-<!--        <ul>-->
-<!--        <li><img src="../img/icon_01.png" alt=""></li>-->
-<!--        <li class="icon_05">1</li>-->
-<!--        <li><img src="../img/icon_02.png" alt=""></li>-->
-<!--        </ul>-->
-<!--        -->
-<!--    </div>-->
-   <h2>각 자 동물을 선택하고 사다리를 타 보세요!</h2>
-    <div class="img_list">
-        <ul class = "img_list_ul" id = "animal_image">
-            <li><img src="../img/1.png" alt="" id = "1_animal"></li>
-            <li><img src="../img/2.png" alt=""></li>
-            <li><img src="../img/3.png" alt=""></li>
-            <li><img src="../img/4.png" alt=""></li>
-        </ul>
-    </div>
-
-       <div class = "ladder" id = "ladder_body">
-       </div>
-    
-      <div class="button_list">
-          <ul id = "destination_list">
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-          </ul>
-          
-      </div>
-      
-      <div class="line"></div>
-      <div class="line_box">
-          <div class="button_50">전체결과</div>
-          <div class="button_51">다시하기</div>
-          
-      </div>
-      <div class="line"></div>
-      
-      <div class="textbox">
-          <div class="text"><p class="rere_01">내기 설정</p></div>
-          <div class="textbox_box">
-          <ul class="text_box01">
-              <li class="box01">1&nbsp; <input type="text" name=""></li>
-              <li class="box02">2&nbsp; <input type="text" name=""></li>
-          </ul>
-          
-          <ul class="text_box02">
-             <li class="box03">3&nbsp; <input type="text" name=""></li>
-              <li class="box04">4&nbsp; <input type="text" name=""></li>
-          </ul>
-          </div>
-          <div class="footer">
-             <p>Copyright Ⓒ Meeteum - Son . All rights reserved.</p>
+    <form action = "/result" method = "get">
+        <div class="wrap">
+            <h2 class="animate__animated animate__bounce animate__repeat-2">각자 동물을 선택하고 사다리를 타 보세요!</h2>
+            <div class="img_list">
+                <ul class = "img_list_ul" id = "animal_image">
+                    <li><img src="../img/1.png" alt="" id = "1_animal"></li>
+                    <li><img src="../img/2.png" alt=""></li>
+                    <li><img src="../img/3.png" alt=""></li>
+                    <li><img src="../img/4.png" alt=""></li>
+                </ul>
             </div>
-          
-      </div>
-    
-    </div>
+
+            <div class = "ladder" id = "ladder_body"></div>
+
+            <div class="button_list">
+                <ul id = "destination_list">
+                    <li id = "dest1">1</li>
+                    <li id = "dest2">2</li>
+                    <li id = "dest3">3</li>
+                    <li id  = "dest4">4</li>
+                </ul>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="line_box">
+                <div class="button_50">전체결과</div>
+                <div class="button_51">다시하기</div>
+            </div>
+
+            <div class="line"></div>
+
+            <div id = "invisible" style = "display:none">
+                <input id="userCount" name="userCount" type="text" th:value = "*{userCount}"/>
+            </div>
+
+            <div id = "invisible_result1" style = "display:none">
+                <input id=result1 name="result1" type="text"/>
+            </div>
+
+            <div id = "invisible_result2" style = "display:none">
+                <input id="result2" name="result2" type="text"/>
+            </div>
+
+            <div id = "invisible_result3" style = "display:none">
+                <input id="result3" name="result3" type="text"/>
+            </div>
+
+            <div id = "invisible_result4" style = "display:none">
+                <input id="result4" name="result4" type="text" th:value = "*{userCount}"/>
+            </div>
+
+            <div class="textbox" th:object = "${result}">
+                <div class="text"><p class="rere_01">내기 설정</p></div>
+                <div class="textbox_box">
+                    <ul class="text_box01">
+                        <li class="box01" id = "box01">1<input id = "text1" type="text" name="text1" th:value = "*{result1}" readonly style = "margin-left: 3%"></li>
+                        <li class="box02" id = "box02">2<input id = "text2" type="text" name="text2" th:value = "*{result2}" readonly style = "margin-left: 3%"></li>
+                    </ul>
+
+                    <ul class="text_box02">
+                        <li class="box03" id = "box03">3<input id = "text3" type="text" name="text3" th:value = "*{result3}" readonly style = "margin-left: 3%"></li>
+                        <li class="box04" id = "box04">4<input id = "text4" type="text" name="text4" th:value = "*{result4}" readonly style = "margin-left: 3%"></li>
+                    </ul>
+                </div>
+
+                <div class="footer">
+                    <p>Copyright Ⓒ Meeteum - Son . All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </form>
+
    <script src="../script/game_index_script01.js"></script>
 </body>
 </html>
